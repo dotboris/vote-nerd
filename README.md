@@ -1,19 +1,12 @@
 # VoteNerd
 
-**TODO: Add description**
+[@votenerdbot](https://t.me/votenerdbot) is a Telegram bot that helps you and
+your friends choose. It's dead simple voting where everyone is happy.
 
-## Installation
+## Development
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `vote_nerd` to your list of dependencies in `mix.exs`:
+TODO
 
-```elixir
-def deps do
-  [{:vote_nerd, "~> 0.1.0"}]
-end
-```
+## Release
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/vote_nerd](https://hexdocs.pm/vote_nerd).
-
+TODO

@@ -1,5 +1,7 @@
 # VoteNerd
 
+[![Build Status](https://travis-ci.org/dotboris/vote-nerd.svg?branch=master)](https://travis-ci.org/dotboris/vote-nerd)
+
 [@votenerdbot](https://t.me/votenerdbot) is a Telegram bot that helps you and
 your friends choose. It's dead simple voting where everyone is happy.
 

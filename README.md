@@ -8,7 +8,9 @@ your friends choose. It's dead simple voting where everyone is happy.
 1.  Create a bot
 1.  Configure your api key
 
-    TODO: how?
+    ```sh
+    export TELEGRAM_BOT_TOKEN={...}
+    ```
 
 1.  Install dependencies
 

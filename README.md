@@ -7,6 +7,7 @@ your friends choose. It's dead simple voting where everyone is happy.
 
 ## Development
 
+
 1.  Create a bot
 1.  Configure your api key
 

@@ -28,6 +28,8 @@ defmodule VoteNerd.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      {:nadia, "~> 0.4.2"}
+    ]
   end
 end

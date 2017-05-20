@@ -5,7 +5,28 @@ your friends choose. It's dead simple voting where everyone is happy.
 
 ## Development
 
-TODO
+1.  Create a bot
+1.  Configure your api key
+
+    TODO: how?
+
+1.  Install dependencies
+
+    ```sh
+    mix deps.get
+    ```
+
+1.  Start the application
+
+    ```sh
+    iex -S mix
+    ```
+
+### Run tests
+
+```sh
+mix test
+```
 
 ## Release
 

@@ -1,18 +1,7 @@
 defmodule VoteNerd do
-  @moduledoc """
-  Documentation for VoteNerd.
-  """
+  use Application
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> VoteNerd.hello
-      :world
-
-  """
-  def hello do
-    :world
+  def start(_type, _args) do
+    VoteNerd.Supervisor.start_link
   end
 end

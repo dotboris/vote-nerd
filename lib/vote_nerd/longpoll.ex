@@ -1,8 +1,9 @@
 defmodule VoteNerd.Longpoll do
   @wait_time 60
 
-  def start do
-    poll(0)
+  def start_link do
+    pid = spawn_link(fn () -> poll(0) end)
+    {:ok, pid}
   end
 
   defp poll(update_id) do

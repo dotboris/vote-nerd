@@ -3,6 +3,7 @@ defmodule VoteNerd.Longpoll do
 
   def start_link do
     pid = spawn_link(fn () -> poll(0) end)
+    Process.register(pid, __MODULE__)
     {:ok, pid}
   end
 
@@ -15,7 +16,7 @@ defmodule VoteNerd.Longpoll do
     poll(last_update_id)
   end
 
-  defp handle_poll({:ok, updates = [_ | _]}, _) do
+  defp handle_poll({:ok, updates}, _) do
     update_id = Enum.reduce(updates, 0, fn (u, _) -> handle_update(u) end)
 
     poll(update_id + 1)

@@ -21,11 +21,8 @@ defmodule VoteNerd.Longpoll do
     update_id + 1
   end
 
-  defp handle_update(%{message: message, update_id: update_id} = update) do
-    %{chat: %{id: chat_id}} = message
-
-    VoteNerd.Registry.chat(VoteNerd.Registry, chat_id)
-    |> VoteNerd.PrivateChat.update(update)
+  defp handle_update(%{update_id: update_id} = update) do
+    spawn(VoteNerd.Router, :dispatch, [update])
 
     update_id
   end

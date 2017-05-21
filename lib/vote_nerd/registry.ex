@@ -32,4 +32,6 @@ defmodule VoteNerd.Registry do
 
     {:noreply, {pids, refs}}
   end
+
+  def handle_info(_msg, state), do: {:noreply, state}
 end

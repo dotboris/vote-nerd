@@ -10,8 +10,13 @@ defmodule VoteNerd.Supervisor do
       worker(VoteNerd.Longpoll, []),
       supervisor(Supervisor, [
         [
-          worker(VoteNerd.Registry, [VoteNerd.Registry]),
-          supervisor(VoteNerd.PrivateChat.Supervisor, [])
+          worker(VoteNerd.Registry, [
+            VoteNerd.PrivateChat.Supervisor,
+            VoteNerd.Registry
+          ]),
+          supervisor(VoteNerd.PrivateChat.Supervisor, [
+            VoteNerd.PrivateChat.Supervisor
+          ])
         ],
         [strategy: :one_for_all]
       ])

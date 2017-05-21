@@ -1,6 +1,12 @@
 defmodule VoteNerd.PrivateChat do
   use GenServer
 
+  @help_text """
+  /start Create a new poll
+  /cancel Cancel building a poll
+  /help Show this text
+  """
+
   def start_link(chat_id) do
     GenServer.start_link(__MODULE__, chat_id)
   end
@@ -26,7 +32,7 @@ defmodule VoteNerd.PrivateChat do
   end
 
   defp handle_text("/help", %{chat_id: chat_id} = state) do
-    Nadia.send_message(chat_id, "TODO: write /help")
+    Nadia.send_message(chat_id, @help_text)
 
     state
   end

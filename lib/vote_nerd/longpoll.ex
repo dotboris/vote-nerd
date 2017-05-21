@@ -10,16 +10,15 @@ defmodule VoteNerd.Longpoll do
   defp poll(update_id) do
     Nadia.get_updates(offset: update_id, timeout: @wait_time)
     |> handle_poll(update_id)
+    |> poll
   end
 
-  defp handle_poll({:ok, []}, last_update_id) do
-    poll(last_update_id)
-  end
+  defp handle_poll({:ok, []}, last_update_id), do: last_update_id
 
   defp handle_poll({:ok, updates}, _) do
     update_id = Enum.reduce(updates, 0, fn (u, _) -> handle_update(u) end)
 
-    poll(update_id + 1)
+    update_id + 1
   end
 
   defp handle_update(%{message: message, update_id: id}) do

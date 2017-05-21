@@ -8,7 +8,13 @@ defmodule VoteNerd.Supervisor do
   def init(:ok) do
     children = [
       worker(VoteNerd.Longpoll, []),
-      supervisor(VoteNerd.PrivateChat.Supervisor, [])
+      supervisor(Supervisor, [
+        [
+          worker(VoteNerd.Registry, [VoteNerd.Registry]),
+          supervisor(VoteNerd.PrivateChat.Supervisor, [])
+        ],
+        [strategy: :one_for_all]
+      ])
     ]
 
     supervise(children, strategy: :one_for_one)

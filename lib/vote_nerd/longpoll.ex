@@ -21,10 +21,12 @@ defmodule VoteNerd.Longpoll do
     update_id + 1
   end
 
-  defp handle_update(%{message: message, update_id: id}) do
-    %{text: text, from: %{username: user}} = message
-    IO.puts("#{user}> #{text}")
+  defp handle_update(%{message: message, update_id: update_id} = update) do
+    %{chat: %{id: chat_id}} = message
 
-    id
+    VoteNerd.Registry.chat(VoteNerd.Registry, chat_id)
+    |> VoteNerd.PrivateChat.update(update)
+
+    update_id
   end
 end

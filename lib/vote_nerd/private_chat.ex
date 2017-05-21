@@ -20,7 +20,9 @@ defmodule VoteNerd.PrivateChat do
 
   def handle_cast({:update, update}, state) do
     %{message: %{text: text}} = update
-    handle_text(text, state)
+    state = handle_text(text, state)
+
+    {:noreply, state}
   end
 
   defp handle_text("/help", %{chat_id: chat_id} = state) do

@@ -7,9 +7,9 @@ defmodule VoteNerd.PrivateChat.Supervisor do
 
   def init(_) do
     children = [
-      worker(VoteNerd.PrivateChat, [], restart: :temporary)
+      worker(VoteNerd.PrivateChat, [], restart: :transient)
     ]
-    
+
     supervise(children, strategy: :simple_one_for_one)
   end
 

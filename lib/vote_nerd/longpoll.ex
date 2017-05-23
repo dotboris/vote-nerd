@@ -8,7 +8,8 @@ defmodule VoteNerd.Longpoll do
   end
 
   defp poll(update_id) do
-    Nadia.get_updates(offset: update_id, timeout: @wait_time)
+    [offset: update_id, timeout: @wait_time]
+    |> Nadia.get_updates
     |> handle_poll(update_id)
     |> poll
   end

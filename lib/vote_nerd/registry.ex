@@ -1,6 +1,8 @@
 defmodule VoteNerd.Registry do
   use GenServer
 
+  alias VoteNerd.PrivateChat.Supervisor
+
   @doc """
   Starts the registry where `supervisor` is the pid of the
   `VoteNerd.PrivateChat.Supervisor` used to spawn chat processes and `name` is
@@ -21,7 +23,7 @@ defmodule VoteNerd.Registry do
   def handle_call({:chat, id}, _from, {supervisor, pids, refs} = state) do
     case Map.get(pids, id) do
       nil ->
-        {:ok, pid} = VoteNerd.PrivateChat.Supervisor.start_private_chat(supervisor, id)
+        {:ok, pid} = Supervisor.start_private_chat(supervisor, id)
         ref = Process.monitor(pid)
         refs = Map.put(refs, ref, id)
         pids = Map.put(pids, id, pid)

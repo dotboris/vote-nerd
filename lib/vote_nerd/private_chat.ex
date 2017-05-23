@@ -67,12 +67,17 @@ defmodule VoteNerd.PrivateChat do
     } end)
     |> Enum.map(fn x -> [x] end)
 
+    share_button = [%Nadia.Model.InlineKeyboardButton{
+      text: "Share",
+      switch_inline_query: ""
+    }]
+
     Nadia.send_message(
       chat_id,
       "*#{title}*",
       parse_mode: "Markdown",
       reply_markup: %Nadia.Model.InlineKeyboardMarkup{
-        inline_keyboard: buttons
+        inline_keyboard: [share_button | buttons]
       }
     )
 

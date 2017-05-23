@@ -63,7 +63,7 @@ defmodule VoteNerd.PrivateChat do
     buttons = options
     |> Enum.map(fn o -> %Nadia.Model.InlineKeyboardButton{
       text: o,
-      url: "http://perdu.com" # TODO: figure out why :callback_data doesn't work
+      callback_data: o
     } end)
     |> Enum.map(fn x -> [x] end)
 

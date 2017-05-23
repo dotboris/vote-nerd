@@ -30,7 +30,8 @@ defmodule VoteNerd.Mixfile do
   defp deps do
     [
       {:nadia, github: "dotboris/nadia", branch: "remove-nil-values-in-markup"},
-      {:excoveralls, "~> 0.6", only: :test}
+      {:excoveralls, "~> 0.6", only: :test},
+      {:credo, "~> 0.7", only: [:dev, :test], runtime: false}
     ]
   end
 end

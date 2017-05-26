@@ -20,11 +20,15 @@ defmodule VoteNerd.Mixfile do
   end
 
   def application do
-    [
-      mod: {VoteNerd, []},
+    app = [
       applications: [:nadia],
       extra_applications: [:logger]
     ]
+
+    case Mix.env do
+      :test -> app
+      _ -> Map.put(app, :mod, {VoteNerd, []})
+    end
   end
 
   defp deps do

@@ -1,6 +1,9 @@
 defmodule VoteNerd.PrivateChat do
   use GenServer
 
+  alias VoteNerd.Poll
+  alias Nadia.Model.{InlineKeyboardButton, InlineKeyboardMarkup}
+
   @help_text """
   /start Create a new poll
   /cancel Cancel building a poll
@@ -18,9 +21,8 @@ defmodule VoteNerd.PrivateChat do
   def init(chat_id) do
     {:ok, %{
       chat_id: chat_id,
-      title: nil,
-      options: [],
-      building: false
+      building: false,
+      poll: %Poll{}
     }}
   end
 
@@ -56,44 +58,64 @@ defmodule VoteNerd.PrivateChat do
   defp handle_text("/cancel", %{chat_id: chat_id} = state) do
     Nadia.send_message(chat_id, "OK. I reset everything.")
 
-    %{state | title: nil, options: [], building: false}
+    %{state | building: false, poll: %Poll{}}
   end
 
-  defp handle_text("/done", %{chat_id: chat_id, building: true, title: title, options: options} = state) do
-    buttons = options
-    |> Enum.map(fn o -> %Nadia.Model.InlineKeyboardButton{
+  defp handle_text("/done",
+    %{
+      chat_id: chat_id,
+      building: true,
+      poll: poll
+    } = state
+  ) do
+    buttons = poll.options
+    |> Enum.with_index
+    |> Enum.map(fn {o, i} -> %InlineKeyboardButton{
       text: o,
-      callback_data: o
+      callback_data: Integer.to_string(i)
     } end)
     |> Enum.map(fn x -> [x] end)
+    |> Enum.reverse
 
-    share_button = [%Nadia.Model.InlineKeyboardButton{
+    share_button = [%InlineKeyboardButton{
       text: "Share",
       switch_inline_query: ""
     }]
 
     Nadia.send_message(
       chat_id,
-      "*#{title}*",
+      "*#{poll.title}*",
       parse_mode: "Markdown",
-      reply_markup: %Nadia.Model.InlineKeyboardMarkup{
+      reply_markup: %InlineKeyboardMarkup{
         inline_keyboard: [share_button | buttons]
       }
     )
 
-    %{state | title: nil, options: [], building: false}
+    %{state | poll: %Poll{}, building: false}
   end
 
-  defp handle_text(title, %{chat_id: chat_id, building: true, title: nil} = state) do
+  defp handle_text(title,
+    %{
+      chat_id: chat_id,
+      building: true,
+      poll: %{title: nil} = poll
+    } = state
+  ) do
     Nadia.send_message(chat_id, "OK. Now start typing some options.")
 
-    %{state | title: title}
+    %{state | poll: Map.put(poll, :title, title)}
   end
 
-  defp handle_text(option, %{chat_id: chat_id, building: true, options: options, title: title} = state) when is_binary(title) do
+  defp handle_text(option,
+    %{
+      chat_id: chat_id,
+      building: true,
+      poll: poll
+    } = state
+  ) do
     Nadia.send_message(chat_id, "OK. Type in another option. If you're done use /done")
 
-    %{state | options: options ++ [option]}
+    %{state | poll: Poll.add_option(poll, option)}
   end
 
   defp handle_text(_text, %{chat_id: chat_id} = state) do

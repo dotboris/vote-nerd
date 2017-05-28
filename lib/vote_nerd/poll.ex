@@ -1,5 +1,5 @@
 defmodule VoteNerd.Poll do
-  defstruct [:title, options: {}, votes: {}]
+  defstruct [:title, options: [], votes: nil]
 
   @doc """
   Adds option `o` to the `poll`.
@@ -7,16 +7,18 @@ defmodule VoteNerd.Poll do
   ## Examples
 
   iex> %VoteNerd.Poll{} |> VoteNerd.Poll.add_option("foobar")
-  %VoteNerd.Poll{options: {"foobar"}, votes: {MapSet.new}}
+  %VoteNerd.Poll{options: ["foobar"]}
+
+  Note that the options are stored in the inverse order that
+  they were added.
 
   iex> %VoteNerd.Poll{}
   ...> |> VoteNerd.Poll.add_option("a")
   ...> |> VoteNerd.Poll.add_option("b")
-  %VoteNerd.Poll{options: {"a", "b"}, votes: {MapSet.new, MapSet.new}}
+  %VoteNerd.Poll{options: ["b", "a"]}
   """
   def add_option(poll, o) do
     poll
-    |> Map.update!(:options, &Tuple.append(&1, o))
-    |> Map.update!(:votes, &Tuple.append(&1, MapSet.new))
+    |> Map.update!(:options, &([o | &1]))
   end
 end

@@ -6,8 +6,4 @@ defmodule VoteNerd.Router do
     |> Registry.chat(chat_id)
     |> PrivateChat.update(update)
   end
-
-  def dispatch(_) do
-    # do nothing
-  end
 end

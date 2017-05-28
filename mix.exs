@@ -27,7 +27,7 @@ defmodule VoteNerd.Mixfile do
 
     case Mix.env do
       :test -> app
-      _ -> Map.put(app, :mod, {VoteNerd, []})
+      _ -> Keyword.put(app, :mod, {VoteNerd, []})
     end
   end
 
